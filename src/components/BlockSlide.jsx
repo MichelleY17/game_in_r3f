@@ -10,7 +10,6 @@ THREE.ColorManagement.legacyMode= false
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
 const floor2Material = new THREE.MeshStandardMaterial({color:"green"})
 const obstacleMaterial = new THREE.MeshStandardMaterial({color:"red"})
-const wallMaterial = new THREE.MeshStandardMaterial({color:"slategrey"})
 
 export  function BlockSlide({position = [0, 0, 0]}){
 
@@ -24,7 +23,10 @@ export  function BlockSlide({position = [0, 0, 0]}){
             //the obstacle moves side to side by multiplying it by 1.25
             const x = Math.sin(time + timeOffset) * 1.2
             // kinematicPosition  gives problems in this case how to fix? prop in setKinematicTraslation
-            obstacle.current.setNextKinematicTranslation({ x: position[0] + x, y:position[1]+.75 , z: position[2]})
+            obstacle.current.setNextKinematicTranslation({ 
+                x: position[0] + x, 
+                y:position[1]+.75 , 
+                z: position[2]})
         
 
     }

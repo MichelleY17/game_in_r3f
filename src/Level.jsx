@@ -1,11 +1,10 @@
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
-import { RigidBody } from "@react-three/rapier";
-import { useMemo, useRef } from "react";
+import { RigidBody , CuboidCollider} from "@react-three/rapier";
+import { useMemo } from "react";
 import { BlockLimbo } from "./components/BlockLimbo";
 import { BlockSpinner } from "./components/BlockSpinner";
 import { BlockSlide } from "./components/BlockSlide";
-import { AxesHelper } from "three";
 
 THREE.ColorManagement.legacyMode = false;
 
@@ -55,7 +54,7 @@ export function BlockEnd({ position = [0, 0, 0] }) {
     </group>
   );
 }
-function Bounds({ length = 1 }) {
+ export function Bounds({ length = 1 }) {
   return (
     <>
       <RigidBody type="fixed" restitution={0.2} friction={0}>
@@ -101,7 +100,6 @@ export function Level({
   console.log(count);
   console.log(types);
 
-  const boundsRef = useRef();
   const blocks = useMemo(() => {
     const newBlocks = [];
     for (let i = 0; i < count; i++) {
@@ -119,7 +117,6 @@ export function Level({
         <Block
           key={index}
           position={[0, 0, -(index + 1) * 4]}
-          colliderRef={boundsRef}
         />
       ))}
 
