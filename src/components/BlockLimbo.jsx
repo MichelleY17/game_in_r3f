@@ -4,15 +4,16 @@ import { RigidBody } from '@react-three/rapier'
 import { useState, useRef } from 'react'
 //  useFrame animation for each frame/ i adding different obstacles so i will use a random speed and multiply the time by it and the useState 
 import { useFrame } from '@react-three/fiber'
+import { AxesHelper } from "three"; // Import AxesHelper
+
 
 THREE.ColorManagement.legacyMode= false
 
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
 const floor2Material = new THREE.MeshStandardMaterial({color:"green"})
 const obstacleMaterial = new THREE.MeshStandardMaterial({color:"red"})
-const wallMaterial = new THREE.MeshStandardMaterial({color:"slategrey"})
 
-function BlockLimbo({position = [0, 0, 0]}){
+export function BlockLimbo({position = [0, 0, 0]}){
 
     const obstacle = useRef()
     // same spedd off set in time radom per Math.PI
@@ -20,15 +21,14 @@ function BlockLimbo({position = [0, 0, 0]}){
     
 
     useFrame((state) => {
-            const time = state.clock.getElapsedTime()
-            //setNextKinematicTraslation to move obstacle up down infinite i wll use Math.sin() and send it the time
-            const y = Math.sin(time + timeOffset) + 1.15 
-            // kinematicPosition  gives problems in this case how to fix? prop in setKinematicTraslation
-            obstacle.current.setNextKinematicTranslation({ x: position[0], y:position[1]+y , z: position[2]})
-        
-
-    }
-    )
+          const time = state.clock.getElapsedTime();
+          const y = Math.sin(time + timeOffset) + 1.15;
+          obstacle.current.setNextKinematicTranslation({
+            x: position[0],
+            y: position[1] + y,
+            z: position[2]
+          });
+      });
 
     return <group position = {position}>
         {/* Floor Spinner */}
@@ -52,4 +52,3 @@ function BlockLimbo({position = [0, 0, 0]}){
        </RigidBody>
     </group>
 }
-export default BlockLimbo
