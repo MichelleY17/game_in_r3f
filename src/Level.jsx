@@ -3,16 +3,17 @@ import React, { useEffect, useState } from "react";
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
 import { RigidBody, CuboidCollider } from "@react-three/rapier";
-import { useMemo } from "react";
 import { BlockLimbo } from "./components/BlockLimbo";
 import { BlockSpinner } from "./components/BlockSpinner";
 import { BlockSlide } from "./components/BlockSlide";
+import { useLoader } from "@react-three/fiber";
 
 THREE.ColorManagement.legacyMode = false;
 
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 const floor1Material = new THREE.MeshStandardMaterial({ color: "limegreen" });
-const wallMaterial = new THREE.MeshStandardMaterial({ color: "mediumpurple" });
+
+
 
 export function BlockStart({ position = [0, 0, 0] }) {
   return (
@@ -29,10 +30,12 @@ export function BlockStart({ position = [0, 0, 0] }) {
   );
 }
 export function BlockEnd({ position = [0, 0, 0] }) {
-  const hamburger = useGLTF("./hamburger.glb");
-  hamburger.scene.children.forEach((mesh) => {
-    mesh.castShadow = true;
-  });
+  const hamburger = useGLTF('/hamburger.glb')
+
+    hamburger.scene.children.forEach((mesh) =>
+    {
+        mesh.castShadow = true
+    })
 
   return (
     <group position={position}>
@@ -44,40 +47,44 @@ export function BlockEnd({ position = [0, 0, 0] }) {
         scale={[4, 0.2, 4]}
         receiveShadow
       />
-      <RigidBody
-        type="fixed"
-        collider="hull"
-        position={[0, 0.25, 0]}
-        restitution={0.2}
-        friction={0}
-      >
-        <primitive object={hamburger.scene} scale={0.2} />
-      </RigidBody>
+      <RigidBody type="fixed" colliders="hull" position={ [ 0, 0.25, 0 ] } restitution={ 0.2 } friction={ 0 }>
+            <primitive object={ hamburger.scene } scale={ 0.2 } />
+        </RigidBody>
     </group>
   );
 }
 export function Bounds({ length = 1 }) {
+  const wallTexture = useLoader(
+    THREE.TextureLoader,
+    "./static/textures/Dungeon_wall2.jpg"
+  );
   return (
     <>
       <RigidBody type="fixed" restitution={0.2} friction={0}>
         <mesh
           position={[2.15, 0.75, -(length * 2) + 2]}
           geometry={boxGeometry}
-          material={wallMaterial}
+          material={new THREE.MeshStandardMaterial({
+            map: wallTexture,
+          })}
           scale={[0.3, 1.5, 4 * length]}
           castShadow
         />
         <mesh
           position={[-2.15, 0.75, -(length * 2) + 2]}
           geometry={boxGeometry}
-          material={wallMaterial}
+          material={new THREE.MeshStandardMaterial({
+            map: wallTexture,
+          })}
           scale={[0.3, 1.5, 4 * length]}
           receiveShadow
         />
         <mesh
           position={[0, 0.75, -(length * 4) + 2]}
           geometry={boxGeometry}
-          material={wallMaterial}
+          material={new THREE.MeshStandardMaterial({
+            map: wallTexture,
+          })}
           scale={[4, 1.5, 0.3]}
           receiveShadow
         />

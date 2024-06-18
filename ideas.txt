@@ -1,7 +1,2 @@
-IsActorBase("Skyrim.esm" | 0x00000007) AND
-IsEquippedRightType(1) AND
-NOT IsEquippedLeftType(1) AND
-NOT IsEquippedLeftType(2) AND
-NOT IsEquippedLeftType(3) AND
-NOT IsEquippedLeftType(4) AND
-NOT IsEquippedLeftType(11)
+globas states are commonly called stores and it's good practiice to create them in a separate file .
+Although we are going to have only one store , in will be in afolder.
