@@ -1,6 +1,8 @@
+import React, { useEffect, useState } from "react";
+
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
-import { RigidBody , CuboidCollider} from "@react-three/rapier";
+import { RigidBody, CuboidCollider } from "@react-three/rapier";
 import { useMemo } from "react";
 import { BlockLimbo } from "./components/BlockLimbo";
 import { BlockSpinner } from "./components/BlockSpinner";
@@ -54,7 +56,7 @@ export function BlockEnd({ position = [0, 0, 0] }) {
     </group>
   );
 }
- export function Bounds({ length = 1 }) {
+export function Bounds({ length = 1 }) {
   return (
     <>
       <RigidBody type="fixed" restitution={0.2} friction={0}>
@@ -94,31 +96,22 @@ export function Level({
   count = 5,
   types = [BlockSpinner, BlockSlide, BlockLimbo],
 }) {
-  {
-    /* ramdom position of the blocks using an array */
-  }
-  console.log(count);
-  console.log(types);
+  const [blocks, setBlocks] = useState([]);
 
-  const blocks = useMemo(() => {
-    const newBlocks = [];
+  useEffect(() => {
     for (let i = 0; i < count; i++) {
       const type = types[Math.floor(Math.random() * types.length)];
-      newBlocks.push(type);
+      setBlocks((prev) => [...prev, type]);
     }
-    // console.log(newBlocks);
-    return newBlocks;
-  }, [count, types]);
+  }, []);
 
   return (
     <>
       <BlockStart position={[0, 0, 0]} />
-      {blocks.map((Block, index) => (
-        <Block
-          key={index}
-          position={[0, 0, -(index + 1) * 4]}
-        />
-      ))}
+
+      {blocks.map((Block, index) => {
+        return <Block key={index} position={[0, 0, -(index + 1) * 4]} />;
+      })}
 
       <BlockEnd position={[0, 0, -(count + 1) * 4]} />
 
