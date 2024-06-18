@@ -4,7 +4,6 @@ import { RigidBody } from '@react-three/rapier'
 import { useState, useRef } from 'react'
 //  useFrame animation for each frame/ i adding different obstacles so i will use a random speed and multiply the time by it and the useState 
 import { useFrame } from '@react-three/fiber'
-import { AxesHelper } from "three"; // Import AxesHelper
 
 
 THREE.ColorManagement.legacyMode= false
@@ -22,12 +21,21 @@ const obstacleMaterial = new THREE.MeshStandardMaterial({color:"red"})
     // console.log(speed)
 
     useFrame((state) => {
-            const time = state.clock.getElapsedTime()
+            // const time = state.clock.getElapsedTime()
+
             // console.log("here is time")
             //setNextKinematicRotation to rotate the spinner  it use a quaternion , three.js will be use to create a quaternarion from a Euler
-            const rotation = new THREE.Quaternion()
-            rotation.setFromEuler( new THREE.Euler(0, time * speed, 0)) 
-            obstacle.current.setNextKinematicRotation(rotation);
+            // const rotation = new THREE.Quaternion()
+            // rotation.setFromEuler( new THREE.Euler(0, time * speed, 0)) 
+            // obstacle.current.setNextKinematicRotation(rotation);
+            useFrame((state) => {
+                if (!obstacle.current) return; // Check if ref is assigned
+            
+                const time = state.clock.getElapsedTime();
+                const rotation = new THREE.Quaternion();
+                rotation.setFromEuler(new THREE.Euler(0, time * speed, 0));
+                obstacle.current.setNextKinematicRotation(rotation);
+              });
         
 
     }

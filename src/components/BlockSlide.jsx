@@ -14,23 +14,33 @@ const obstacleMaterial = new THREE.MeshStandardMaterial({color:"red"})
 export  function BlockSlide({position = [0, 0, 0]}){
 
     const obstacle = useRef()
-    // same spedd off set in time radom per Math.PI
     const [timeOffset] = useState(() => Math.random()* Math.PI * 2)
     
 
-    useFrame((state) => {
-            const time = state.clock.getElapsedTime()
-            //the obstacle moves side to side by multiplying it by 1.25
-            const x = Math.sin(time + timeOffset) * 1.2
-            // kinematicPosition  gives problems in this case how to fix? prop in setKinematicTraslation
-            obstacle.current.setNextKinematicTranslation({ 
-                x: position[0] + x, 
-                y:position[1]+.75 , 
-                z: position[2]})
+    // useFrame((state) => {
+    //         const time = state.clock.getElapsedTime()
+    //         //the obstacle moves side to side by multiplying it by 1.25
+    //         const x = Math.sin(time + timeOffset) * 1.2
+    //         // kinematicPosition  gives problems in this case how to fix? prop in setKinematicTraslation
+    //         obstacle.current.setNextKinematicTranslation({ 
+    //             x: position[0] + x, 
+    //             y:position[1]+.75 , 
+    //             z: position[2]})
         
 
-    }
-    )
+    // }
+    // )
+    useFrame((state) => {
+        if (!obstacle.current) return; // Check if ref is assigned
+
+        const time = state.clock.getElapsedTime();
+        const x = Math.sin(time + timeOffset) * 1.25;
+        obstacle.current.setNextKinematicTranslation({
+            x: position[0] + x,
+            y: position[1] + 0.75,
+            z: position[2]
+        });
+    });
 
     return <group position = {position}>
         {/* Floor Spinner */}
