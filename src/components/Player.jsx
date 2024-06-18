@@ -3,7 +3,7 @@ import { useRapier, RigidBody } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 import { useKeyboardControls } from "@react-three/drei";
 import {useState, useEffect, useRef } from "react";
-import * as Three from 'three'
+import useGame from "../stores/useGame";
 
 THREE.ColorManagement.legacyMode = false;
 const playerForm = new THREE.IcosahedronGeometry(0.3, 1, 8);
@@ -23,7 +23,13 @@ export default function Player() {
   const rapierWorld = world
   const [smoothedCameraPosition] = useState(() => new THREE.Vector3(10, 10, 10))
   const [smoothedCameraTarget] = useState(() => new THREE.Vector3())
-  // console.log(world)
+
+
+  const start = useGame((state) => state.start)
+  const end = useGame((state) => state.end)
+  const restart = useGame((state) => state.restart)
+  const blocksCount = useGame((state) => state.blocksCount)
+
   const  jump = () =>{
     // console.log('jump', 'weee!')
     const origin = body.current.translation()
@@ -34,8 +40,27 @@ export default function Player() {
     if(hit.toi < .15)
       body.current.applyImpulse({x:0, y:.5, z:0})
   }
+  // reset remove physics form the player
+
+  const reset = () =>{
+    body.current.setTranslation({x:0, y:1, z:0})
+    body.current.setLinvel({x:0, y:0, z:0})
+    body.current.setAngvel({x:0, y:0, z:0})
+  }
+
+
   // jump key
   useEffect(() => {
+
+     const unsubscribeReset = useGame.subscribe(
+      (state) =>state.phase,
+      (value ) => {
+        if(value === 'ready'){
+          reset()
+        }
+      },
+    )
+
     const unsubscribeJump = subscribeKeys(
       (state) =>state.jump,
       // jump when press no when release
@@ -43,11 +68,14 @@ export default function Player() {
         if(value)
             jump()
       }) 
-      const unsubscribe = subscribeKeys(() => {
-
+      const unsubscribeAny = subscribeKeys(
+        () => {
+          start()
       })
       return () => {
         unsubscribeJump()
+        unsubscribeAny()
+        unsubscribeReset()
       }
   }, [] )
   useFrame((state, delta) => {
@@ -105,6 +133,15 @@ export default function Player() {
 
      state.camera.position.copy(smoothedCameraPosition)
      state.camera.lookAt(smoothedCameraTarget)
+
+
+    //  phases
+
+    if(bodyPosition.z < -(blocksCount *4 + 2))
+      end()
+
+    if(bodyPosition.y <- 4)
+      restart()
   });
 
   return (

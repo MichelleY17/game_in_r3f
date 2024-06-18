@@ -101,7 +101,7 @@ export function Bounds({ length = 1 }) {
 }
 export function Level({
   count = 5,
-  types = [BlockSpinner, BlockSlide, BlockLimbo],
+  types = [BlockSpinner, BlockSlide, BlockLimbo], seed = 0
 }) {
   const [blocks, setBlocks] = useState([]);
 

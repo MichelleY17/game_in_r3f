@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react'
 import { addEffect } from '@react-three/fiber'
 
 export default function Interface()
-{
+{   
     const time = useRef()
 
     const restart = useGame((state) => state.restart)
