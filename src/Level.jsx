@@ -9,10 +9,13 @@ import { BlockSlide } from "./components/BlockSlide";
 import { useLoader } from "@react-three/fiber";
 
 THREE.ColorManagement.legacyMode = false;
+const TextureLoader = new THREE.TextureLoader()
+
 
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 const floor1Material = new THREE.MeshStandardMaterial({ color: "limegreen" });
-
+const wall1Material = new THREE.MeshStandardMaterial({ color: "limegreen" });
+const wallTexture =  TextureLoader.load("textures/Dungeon_wall2.jpg")
 
 
 export function BlockStart({ position = [0, 0, 0] }) {
@@ -49,42 +52,43 @@ export function BlockEnd({ position = [0, 0, 0] }) {
       />
       <RigidBody type="fixed" colliders="hull" position={ [ 0, 0.25, 0 ] } restitution={ 0.2 } friction={ 0 }>
             <primitive object={ hamburger.scene } scale={ 0.2 } />
-        </RigidBody>
+      </RigidBody>
     </group>
   );
 }
 export function Bounds({ length = 1 }) {
-  const wallTexture = useLoader(
-    THREE.TextureLoader,
-    "/textures/Dungeon_wall2.jpg"
-  );
+  // const wallTexture = useLoader(
+  //   THREE.TextureLoader,
+  //   "/textures/Dungeon_wall2.jpg"
+  // );
   return (
     <>
       <RigidBody type="fixed" restitution={0.2} friction={0}>
         <mesh
           position={[2.15, 0.75, -(length * 2) + 2]}
           geometry={boxGeometry}
-          material={new THREE.MeshStandardMaterial({
-            map: wallTexture,
-          })}
+          material={wallTexture}
+          // material={wall1Material}
           scale={[0.3, 1.5, 4 * length]}
           castShadow
         />
         <mesh
           position={[-2.15, 0.75, -(length * 2) + 2]}
           geometry={boxGeometry}
-          material={new THREE.MeshStandardMaterial({
-            map: wallTexture,
-          })}
+          // material={new THREE.MeshStandardMaterial({
+          //   map: wallTexture,
+          // })}
+          material={wall1Material}
           scale={[0.3, 1.5, 4 * length]}
           receiveShadow
         />
         <mesh
           position={[0, 0.75, -(length * 4) + 2]}
           geometry={boxGeometry}
-          material={new THREE.MeshStandardMaterial({
-            map: wallTexture,
-          })}
+          // material={new THREE.MeshStandardMaterial({
+          //   map: wallTexture,
+          // })}
+          material={wall1Material}
           scale={[4, 1.5, 0.3]}
           receiveShadow
         />
@@ -101,7 +105,7 @@ export function Bounds({ length = 1 }) {
 }
 export function Level({
   count = 5,
-  types = [BlockSpinner, BlockSlide, BlockLimbo], seed = 0
+  types = [BlockSpinner, BlockSlide, BlockLimbo]
 }) {
   const [blocks, setBlocks] = useState([]);
 
