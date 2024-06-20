@@ -56,7 +56,7 @@ export function BlockEnd({ position = [0, 0, 0] }) {
 export function Bounds({ length = 1 }) {
   const wallTexture = useLoader(
     THREE.TextureLoader,
-    "./static/textures/Dungeon_wall2.jpg"
+    "/textures/Dungeon_wall2.jpg"
   );
   return (
     <>
