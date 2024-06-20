@@ -21,12 +21,12 @@ body,
 }
 .time{
     position: absolute;
-    top: 15%;
+    top: 5%;
     left: 0;
     width: 100%;
-    color: #409f97;
+    color: #252727;
     font-size: 6vh;
-    background: #6c0505;
+    /* background: #00000035; */
     padding: 5px;
     text-align: center;
 }
@@ -38,11 +38,12 @@ body,
     top: 40%;
     left:0;
     width: 100%;
-    color: #409f97;
-    background: #8d2e0b;
+    color: #000000;
+    background: #fdfbfa;
     padding-top: 10px;
     pointer-events: auto;
     cursor: pointer;
+    font-size: 40px;
 }
 .controls
 {
@@ -57,18 +58,17 @@ body,
     justify-content: center;
 }.controls .key
 {
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
     margin: 4px;
-    border: 2px solid #8d2e0b;
-    background: #cdcbca;
+    background: #ffffffa6;
 }
 
 
 .controls .key.large{
-    width: 144px;
+    width: 134px;
 }
 
 .controls .key.active{
-    background: #409f97;
+    background: #171818;
 }
