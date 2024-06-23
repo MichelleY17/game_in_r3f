@@ -14,8 +14,8 @@ const TextureLoader = new THREE.TextureLoader()
 
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 const floor1Material = new THREE.MeshStandardMaterial({ color: "limegreen" });
-const wall1Material = new THREE.MeshStandardMaterial({ color: "limegreen" });
-const wallTexture =  TextureLoader.load("textures/Dungeon_wall2.jpg")
+const wallMaterial = new THREE.MeshStandardMaterial({ color: "grey" });
+
 
 
 export function BlockStart({ position = [0, 0, 0] }) {
@@ -57,38 +57,27 @@ export function BlockEnd({ position = [0, 0, 0] }) {
   );
 }
 export function Bounds({ length = 1 }) {
-  // const wallTexture = useLoader(
-  //   THREE.TextureLoader,
-  //   "/textures/Dungeon_wall2.jpg"
-  // );
   return (
     <>
       <RigidBody type="fixed" restitution={0.2} friction={0}>
         <mesh
           position={[2.15, 0.75, -(length * 2) + 2]}
           geometry={boxGeometry}
-          material={wallTexture}
-          // material={wall1Material}
+          material={wallMaterial}
           scale={[0.3, 1.5, 4 * length]}
           castShadow
         />
         <mesh
           position={[-2.15, 0.75, -(length * 2) + 2]}
           geometry={boxGeometry}
-          // material={new THREE.MeshStandardMaterial({
-          //   map: wallTexture,
-          // })}
-          material={wall1Material}
+          material={wallMaterial}
           scale={[0.3, 1.5, 4 * length]}
           receiveShadow
         />
         <mesh
           position={[0, 0.75, -(length * 4) + 2]}
           geometry={boxGeometry}
-          // material={new THREE.MeshStandardMaterial({
-          //   map: wallTexture,
-          // })}
-          material={wall1Material}
+          material={wallMaterial}
           scale={[4, 1.5, 0.3]}
           receiveShadow
         />
